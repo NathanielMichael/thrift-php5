@@ -334,7 +334,7 @@ class TCompactProtocol extends TProtocol {
       $field_id = $this->lastFid + $delta;
     }
     $this->lastFid = $field_id;
-    $field_type = $this->getTType($field_type & 0x0f);
+    $field_type &= 0x0f;
     if ($field_type == TCompactProtocol::COMPACT_TRUE) {
       $this->state = TCompactProtocol::STATE_BOOL_READ;
       $this->boolValue = true;
@@ -344,6 +344,7 @@ class TCompactProtocol extends TProtocol {
     } else {
       $this->state = TCompactProtocol::STATE_VALUE_READ;
     }
+    $field_type = $this->getTType($field_type);
     return $result;
   }
 
